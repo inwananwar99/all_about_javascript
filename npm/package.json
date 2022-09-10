@@ -1,0 +1,19 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "belajar Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "all_about_javascript"
+  },
+  "author": "Inwan Anwar Solihudin",
+  "license": "ISC",
+  "dependencies": {
+    "validator": "^13.5.2"
+  }
+}

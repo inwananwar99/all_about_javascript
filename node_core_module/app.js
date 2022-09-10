@@ -25,6 +25,15 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+//jika belum ada folder data, maka dibuatkan foldernya dan jika belum ada file contacts, maka akan dibuatkan file nya
+const dir = './data';
+const file = './data/contacts.json';
+if(!fs.existsSync(dir)){
+  fs.mkdir(dir);
+}else if(!fs.existsSync(file)){
+   fs.writeFileSync(file,'[]','utf-8');
+}
+
 rl.question('Inputkan nama anda : ',(nama)=>{
     rl.question('Inputkan nomor telepon anda :', (nohp)=>{
         const contact = {nama , nohp};
