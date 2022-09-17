@@ -1,7 +1,16 @@
 //core module
 //file system
-const fs = require('fs');
-const readline = require('readline')
+const yargs = require('yargs');
+const { tulisPertanyaan, simpanContact} = require('./contacts')
+
+
+
+
+
+
+
+
+
 //buat file baru/edit file baru dengan menambahkan string (Synchronous)
 // fs.writeFileSync('idpel.csv','123456789101');
 
@@ -20,31 +29,26 @@ const readline = require('readline')
 //     console.log(data)
 // })
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
-//jika belum ada folder data, maka dibuatkan foldernya dan jika belum ada file contacts, maka akan dibuatkan file nya
-const dir = './data';
-const file = './data/contacts.json';
-if(!fs.existsSync(dir)){
-  fs.mkdir(dir);
-}else if(!fs.existsSync(file)){
-   fs.writeFileSync(file,'[]','utf-8');
-}
+// const main = async() =>{
+//     const nama = await tulisPertanyaan('Inputkan nama anda : ');
+//     const nohp = await tulisPertanyaan('Inputkan nomor handphone anda : ');
+//     simpanContact(nama,nohp);
+// }
 
-rl.question('Inputkan nama anda : ',(nama)=>{
-    rl.question('Inputkan nomor telepon anda :', (nohp)=>{
-        const contact = {nama , nohp};
-        const file = fs.readFileSync('data/contacts.json','utf8');
-        const contacts = JSON.parse(file);
-        contacts.push(contact);
-        fs.writeFileSync('data/contacts.json',JSON.stringify(contacts));
-        console.log('Tengkyu yaa, bakal gua daftarin pinjol nih wkwk');
-        rl.close();
-    })    
-})
+// main();
+
+// rl.question('Inputkan nama anda : ',(nama)=>{
+//     rl.question('Inputkan nomor telepon anda :', (nohp)=>{
+//         const contact = {nama , nohp};
+//         const file = fs.readFileSync('data/contacts.json','utf8');
+//         const contacts = JSON.parse(file);
+//         contacts.push(contact);
+//         fs.writeFileSync('data/contacts.json',JSON.stringify(contacts));
+//         console.log('Tengkyu yaa, bakal gua daftarin pinjol nih wkwk');
+//         rl.close();
+//     })    
+// })
 
 
 
