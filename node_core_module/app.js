@@ -27,6 +27,31 @@ yargs.command(
         handler(argv){
           contacts.simpanContact(argv.nama,argv.email,argv.noHp);
         }
+    }).demandCommand();
+
+    yargs.command(
+        {
+            command: 'list',
+            describe: 'Menampilkan daftar kontak yang sudah terdaftar',
+            handler(){
+              contacts.listContact();
+            }
+        });
+
+    yargs.command(
+    {
+        command: 'detail',
+        describe: 'Menampilkan detail kontak yang sudah terdaftar',
+        builder:{
+            nama : {
+                describe: "Nama Lengkap",
+                demandOption: true,
+                type: 'string'
+            }
+        },
+        handler(argv){
+            contacts.detailContact(argv.nama);
+        }
     });
 
 yargs.parse();

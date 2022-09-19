@@ -12,11 +12,15 @@ if(!fs.existsSync(file)){
    fs.writeFileSync(file,'[]','utf-8');
 }
 
+const loadContacts = ()=>{
+    const file = fs.readFileSync('data/contacts.json','utf8');
+    const contacts = JSON.parse(file);
+    return contacts;
+}
 
 const simpanContact = (nama,email,nohp) => {
     const contact = {nama , email, nohp };
-    const file = fs.readFileSync('data/contacts.json','utf8');
-    const contacts = JSON.parse(file);
+    const contacts = loadContacts();
     //validasi duplikat
     const duplicate = contacts.find((contact)=>contact.nama === nama);
     if(duplicate){
@@ -45,4 +49,22 @@ const simpanContact = (nama,email,nohp) => {
     console.log('Tengkyu yaa, bakal gua daftarin pinjol nih wkwk');
 }
 
-module.exports = { simpanContact }
+const listContact = ()=>{
+    const contact = loadContacts();
+    contact.forEach((contact,i)=>{
+        console.log(`${i+1}. ${contact.nama} - ${contact.nohp}`)
+    })
+}
+
+const detailContact = (nama)=>{
+    const contacts = loadContacts();
+    const contact = contacts.find((contact)=>contact.nama.toLowerCase() === nama.toLowerCase());
+    if(!contact){
+        console.log('Kontak tidak terdaftar!');
+        return false;
+    }
+    console.log(`Nama Lengkap : ${contact.nama}`);
+    console.log(`Nomor HP     : ${contact.nohp}`);
+}
+
+module.exports = { listContact, simpanContact, detailContact }
