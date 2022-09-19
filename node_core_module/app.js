@@ -1,7 +1,36 @@
 //core module
 //file system
 const yargs = require('yargs');
-const { tulisPertanyaan, simpanContact} = require('./contacts')
+const contacts = require('./contacts')
+
+yargs.command(
+    {
+        command: 'add',
+        describe: 'Menambahkan kontak baru',
+        builder: {
+            nama : {
+                describe: "Nama Lengkap",
+                demandOption: true,
+                type: 'string'
+            },
+            email : {
+                describe: "Alamat Email",
+                demandOption: false,
+                type: 'string'
+            },
+            noHp : {
+                describe: "Nomor Handphone",
+                demandOption: true,
+                type: 'string'
+            },
+        },
+        handler(argv){
+          contacts.simpanContact(argv.nama,argv.email,argv.noHp);
+        }
+    });
+
+yargs.parse();
+
 
 
 
