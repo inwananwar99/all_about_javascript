@@ -60,11 +60,23 @@ const detailContact = (nama)=>{
     const contacts = loadContacts();
     const contact = contacts.find((contact)=>contact.nama.toLowerCase() === nama.toLowerCase());
     if(!contact){
-        console.log('Kontak tidak terdaftar!');
+        console.log(`${nama} tidak terdaftar!`);
         return false;
     }
     console.log(`Nama Lengkap : ${contact.nama}`);
     console.log(`Nomor HP     : ${contact.nohp}`);
 }
 
-module.exports = { listContact, simpanContact, detailContact }
+//delete contact
+const deleteContact = (nama)=>{
+  const contacts = loadContacts();
+  const newContact = contacts.filter((contact)=> contact.nama.toLowerCase() !== nama.toLowerCase());
+  if(contacts.length === newContact.length){
+    console.log(`${nama} tidak ditemukan`);
+    return false;
+  }
+  fs.writeFileSync('data/contacts.json',JSON.stringify(newContact));
+  console.log('Tengkyu yaa, data lu udah dihapus');
+}
+
+module.exports = { listContact, simpanContact, detailContact, deleteContact }

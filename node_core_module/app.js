@@ -54,6 +54,23 @@ yargs.command(
         }
     });
 
+//Menghapus kontak
+yargs.command(
+    {
+        command: 'delete',
+        describe: 'Menghapus kontak yang sudah terdaftar',
+        builder:{
+            nama : {
+                describe: "Nama Lengkap",
+                demandOption: true,
+                type: 'string'
+            }
+        },
+        handler(argv){
+            contacts.deleteContact(argv.nama);
+        }
+    });
+
 yargs.parse();
 
 
@@ -98,8 +115,8 @@ yargs.parse();
 //         const file = fs.readFileSync('data/contacts.json','utf8');
 //         const contacts = JSON.parse(file);
 //         contacts.push(contact);
-//         fs.writeFileSync('data/contacts.json',JSON.stringify(contacts));
-//         console.log('Tengkyu yaa, bakal gua daftarin pinjol nih wkwk');
+        // fs.writeFileSync('data/contacts.json',JSON.stringify(contacts));
+        // console.log('Tengkyu yaa, bakal gua daftarin pinjol nih wkwk');
 //         rl.close();
 //     })    
 // })
