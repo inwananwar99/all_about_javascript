@@ -1,13 +1,19 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+//pakai EJS
+app.set('view engine','ejs')
 
 app.get('/',(req,res)=>{
-    res.sendFile('./index.html',{root:__dirname})
+    res.render('index')
 });
 
 app.get('/registrasi',(req,res)=>{
-    res.sendFile('./register.html',{root:__dirname})
+    res.render('register')
+});
+
+app.get('/product/:id',(req,res)=>{
+    res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
 });
 
 app.use('/',(req,res)=>{
