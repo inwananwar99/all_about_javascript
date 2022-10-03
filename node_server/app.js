@@ -1,7 +1,9 @@
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 const app = express();
 const port = 3000;
 //pakai EJS
+app.use(expressLayouts)
 app.set('view engine','ejs')
 subholding = [
     {
@@ -21,12 +23,16 @@ app.get('/',(req,res)=>{
     res.render('index',{
         nama :'Yuddy Wicaksono',
         title:'PLN Icon Plus',
-        subholding
+        subholding,
+        layout:'layouts/main_layouts'
     })
 });
 
 app.get('/registrasi',(req,res)=>{
-    res.render('register')
+    res.render('register',{
+        title:'Registrasi',
+        layout:'layouts/main_layouts'
+    })
 });
 
 app.get('/product/:id',(req,res)=>{
