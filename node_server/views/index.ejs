@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLN ICON PLUS | Home</title>
+    <title><%= `${title} | Home` %></title>
 </head>
 <body>
     <h2>Selamat Datang di Website Resmi Sub-Holding Beyond kWh</h2>
+    <%= `Terimakasih atas pengabdiannya pak ${nama}` %>
+    <h1>4 Sub-Holding PLN </h1>
+    <% subholding.forEach(sbh => { %>
+      <ul>
+        <li><%= sbh.nama %> </li>
+      </ul>
+    <% }) %>  
 </body>
 </html>

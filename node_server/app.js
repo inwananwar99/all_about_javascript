@@ -3,9 +3,26 @@ const app = express();
 const port = 3000;
 //pakai EJS
 app.set('view engine','ejs')
-
+subholding = [
+    {
+        nama:'PLN Indonesia Power',
+    },
+    {
+        nama:'PLN Nusantara Power'
+    },
+    {
+        nama:'PLN Indonesia Primer'
+    },
+    {
+        nama:'PLN Icon Plus'
+    }
+];
 app.get('/',(req,res)=>{
-    res.render('index')
+    res.render('index',{
+        nama :'Yuddy Wicaksono',
+        title:'PLN Icon Plus',
+        subholding
+    })
 });
 
 app.get('/registrasi',(req,res)=>{
