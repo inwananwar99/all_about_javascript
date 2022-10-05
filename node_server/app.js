@@ -3,6 +3,8 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 const port = 3000;
 //pakai EJS
+
+//Third-Party Middleware
 app.use(expressLayouts)
 app.set('view engine','ejs')
 subholding = [
@@ -19,6 +21,16 @@ subholding = [
         nama:'PLN Icon Plus'
     }
 ];
+
+//application middleware
+app.use((req,res,next)=>{
+    console.log('Time:', Date.now())
+    next()
+})
+
+//built-in middleware
+app.use(express.static('public'))
+
 app.get('/',(req,res)=>{
     res.render('index',{
         nama :'Yuddy Wicaksono',
@@ -28,11 +40,16 @@ app.get('/',(req,res)=>{
     })
 });
 
-app.get('/registrasi',(req,res)=>{
+app.get('/registrasi',(req,res,next)=>{
     res.render('register',{
         title:'Registrasi',
         layout:'layouts/main_layouts'
     })
+    next()
+});
+
+app.get('/about',(req,res)=>{
+   console.log('Ini adalah halaman about')
 });
 
 app.get('/product/:id',(req,res)=>{
