@@ -1,5 +1,6 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
+const { loadContacts } = require('./utils/contacts')
 const app = express();
 const port = 3000;
 //pakai EJS
@@ -40,21 +41,25 @@ app.get('/',(req,res)=>{
     })
 });
 
-app.get('/registrasi',(req,res,next)=>{
+app.get('/registrasi',(req,res)=>{
     res.render('register',{
         title:'Registrasi',
         layout:'layouts/main_layouts'
     })
-    next()
 });
 
-app.get('/about',(req,res)=>{
-   console.log('Ini adalah halaman about')
+app.get('/contact',(req,res,next)=>{
+    const contacts = loadContacts();
+    res.render('contact',{
+        title:'Contacts',
+        layout:'layouts/main_layouts',
+        contacts
+    })
 });
 
-app.get('/product/:id',(req,res)=>{
-    res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
-});
+// app.get('/product/:id',(req,res)=>{
+//     res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
+// });
 
 app.use('/',(req,res)=>{
     res.status(404)
