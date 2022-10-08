@@ -12,10 +12,18 @@ if(!fs.existsSync(file)){
    fs.writeFileSync(file,'[]','utf-8');
 }
 
+//ambil data kontak
 const loadContacts = ()=>{
     const file = fs.readFileSync('data/contacts.json','utf8');
     const contacts = JSON.parse(file);
     return contacts;
 }
 
-module.exports = { loadContacts }
+//cari kontak berdasarkan nama
+const findContacts = (nama) =>{
+  const contacts = loadContacts();
+  const contact = contacts.find((contact)=>contact.nama.toLowerCase() === nama.toLowerCase());
+  return contact;
+}
+
+module.exports = { loadContacts, findContacts }
