@@ -26,4 +26,14 @@ const findContacts = (nama) =>{
   return contact;
 }
 
-module.exports = { loadContacts, findContacts }
+const saveContact = (contacts)=>{
+  fs.writeFileSync('./data/contacts.json',JSON.stringify(contacts))
+}
+
+const addContact = (contact)=>{
+  const contacts = loadContacts();
+  contacts.push(contact);
+  saveContact(contacts);
+}
+
+module.exports = { loadContacts, findContacts, addContact }

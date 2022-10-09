@@ -1,6 +1,6 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const { loadContacts, findContacts } = require('./utils/contacts')
+const { loadContacts, findContacts, addContact } = require('./utils/contacts')
 const app = express();
 const port = 3000;
 //pakai EJS
@@ -31,6 +31,7 @@ app.use((req,res,next)=>{
 
 //built-in middleware
 app.use(express.static('public'))
+app.use(express.urlencoded())
 
 app.get('/',(req,res)=>{
     res.render('index',{
@@ -48,12 +49,19 @@ app.get('/registrasi',(req,res)=>{
     })
 });
 
-app.get('/contact',(req,res,next)=>{
+app.get('/contact',(req,res)=>{
     const contacts = loadContacts();
     res.render('contact',{
         title:'Contacts',
         layout:'layouts/main_layouts',
         contacts
+    })
+});
+
+app.get('/contact/add',(req,res)=>{
+    res.render('add_contact',{
+        title:'Add Contacts',
+        layout:'layouts/main_layouts'
     })
 });
 
@@ -65,6 +73,11 @@ app.get('/contact/:nama',(req,res)=>{
         contact
     })
 });
+
+app.post('/contact',(req,res)=>{
+    addContact(req.body)
+    res.redirect('/contact')
+})
 
 // app.get('/product/:id',(req,res)=>{
 //     res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
