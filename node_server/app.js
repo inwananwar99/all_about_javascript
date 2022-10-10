@@ -1,6 +1,7 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const { loadContacts, findContacts, addContact } = require('./utils/contacts')
+const { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor } = require('./utils/contacts')
+const {body,validationResult, check} = require('express-validator')
 const app = express();
 const port = 3000;
 //pakai EJS
@@ -31,7 +32,7 @@ app.use((req,res,next)=>{
 
 //built-in middleware
 app.use(express.static('public'))
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended:true}))
 
 app.get('/',(req,res)=>{
     res.render('index',{
@@ -74,9 +75,37 @@ app.get('/contact/:nama',(req,res)=>{
     })
 });
 
-app.post('/contact',(req,res)=>{
-    addContact(req.body)
-    res.redirect('/contact')
+app.post('/contact',[
+    //validasi email
+    check('email','Alamat Email tidak tepat! Silahkan isi dengan tepat!').isEmail(),
+    //validasi nama
+    body('nama').custom((value)=>{
+        const duplikatNama = cekDuplikatNama(value);
+        if(duplikatNama){
+            throw new Error('Nama Kontak Sudah terdaftar!')
+        }
+        return true
+    }),
+    //validasi no hp
+    body('nohp').custom((value)=>{
+        const duplikatNomor = cekDuplikatNomor(value);
+        if(duplikatNomor){
+            throw new Error('Nomor Sudah terdaftar!')
+        }
+        return true
+    })
+],(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render('add_contact',{
+        title:'Add Contact',
+        layout:'layouts/main_layouts',
+        errors:errors.array()
+      })
+    }else{
+        addContact(req.body)
+        res.redirect('/contact')
+    }
 })
 
 // app.get('/product/:id',(req,res)=>{

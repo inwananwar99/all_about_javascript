@@ -26,14 +26,28 @@ const findContacts = (nama) =>{
   return contact;
 }
 
+//simpan kontak ke file json
 const saveContact = (contacts)=>{
   fs.writeFileSync('./data/contacts.json',JSON.stringify(contacts))
 }
 
+//tambah kontak
 const addContact = (contact)=>{
   const contacts = loadContacts();
   contacts.push(contact);
   saveContact(contacts);
 }
 
-module.exports = { loadContacts, findContacts, addContact }
+//cek duplikat nama
+const cekDuplikatNama = (nama)=>{
+  const contacts = loadContacts();
+  return contacts.find((contact)=>contact.nama == nama)
+}
+
+//cek duplikat nomor
+const cekDuplikatNomor = (kontak)=>{
+  const contacts = loadContacts();
+  return contacts.find((contact)=>contact.nohp == kontak)
+}
+
+module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor }
