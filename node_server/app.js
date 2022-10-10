@@ -1,7 +1,10 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor } = require('./utils/contacts')
+const { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact } = require('./utils/contacts')
 const {body,validationResult, check} = require('express-validator')
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 const app = express();
 const port = 3000;
 //pakai EJS
@@ -9,20 +12,6 @@ const port = 3000;
 //Third-Party Middleware
 app.use(expressLayouts)
 app.set('view engine','ejs')
-subholding = [
-    {
-        nama:'PLN Indonesia Power',
-    },
-    {
-        nama:'PLN Nusantara Power'
-    },
-    {
-        nama:'PLN Indonesia Primer'
-    },
-    {
-        nama:'PLN Icon Plus'
-    }
-];
 
 //application middleware
 app.use((req,res,next)=>{
@@ -33,8 +22,30 @@ app.use((req,res,next)=>{
 //built-in middleware
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser('secret'))
+app.use(session({
+    cookie:{maxAge:6000},
+    secret:'secret',
+    resave:true,
+    saveUninitialized:true
+}))
+app.use(flash())
 
 app.get('/',(req,res)=>{
+    subholding = [
+        {
+            nama:'PLN Indonesia Power',
+        },
+        {
+            nama:'PLN Nusantara Power'
+        },
+        {
+            nama:'PLN Indonesia Primer'
+        },
+        {
+            nama:'PLN Icon Plus'
+        }
+    ];
     res.render('index',{
         nama :'Yuddy Wicaksono',
         title:'PLN Icon Plus',
@@ -55,7 +66,8 @@ app.get('/contact',(req,res)=>{
     res.render('contact',{
         title:'Contacts',
         layout:'layouts/main_layouts',
-        contacts
+        contacts,
+        msg:req.flash('msg')
     })
 });
 
@@ -75,6 +87,7 @@ app.get('/contact/:nama',(req,res)=>{
     })
 });
 
+//tambah kontak
 app.post('/contact',[
     //validasi email
     check('email','Alamat Email tidak tepat! Silahkan isi dengan tepat!').isEmail(),
@@ -104,8 +117,15 @@ app.post('/contact',[
       })
     }else{
         addContact(req.body)
+        req.flash('msg','Data berhasil ditambahkan!')
         res.redirect('/contact')
     }
+})
+
+//hapus kontak
+app.delete('/contact/:nama',(req,res)=>{
+    deleteContact(req.params.nama);
+    res.redirect('/contact')
 })
 
 // app.get('/product/:id',(req,res)=>{

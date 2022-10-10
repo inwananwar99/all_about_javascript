@@ -50,4 +50,15 @@ const cekDuplikatNomor = (kontak)=>{
   return contacts.find((contact)=>contact.nohp == kontak)
 }
 
-module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor }
+//delete kontak
+const deleteContact = (nama)=>{
+  const contacts = loadContacts();
+  const newContact = contacts.filter((contact)=> contact.nama.toLowerCase() !== nama.toLowerCase());
+  if(contacts.length === newContact.length){
+    console.log(`${nama} tidak ditemukan`);
+    return false;
+  }
+  fs.writeFileSync('data/contacts.json',JSON.stringify(newContact));
+}
+
+module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact }

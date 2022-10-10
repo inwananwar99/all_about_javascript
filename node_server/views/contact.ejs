@@ -1,6 +1,11 @@
 <div class="container-fluid">
     <h2>Selamat Datang di Halaman Contact</h2>
 <h6>Daftar Kontak</h6>
+<% if (msg.length !== 0) { %>
+    <div class="alert alert-success" role="alert">
+        <%= msg %> 
+      </div>
+<% } %>
 <a href="/contact/add" class="btn btn-success">Tambah Data</a>
 <table class="table">
     <tr>
@@ -14,7 +19,8 @@
             <td><%= no++  %> </td>
             <td><%= ctc.nohp %></td>
             <td>
-                <a href="/contact/<%= ctc.nama %> " class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle me-3"></i>Detail</a>
+                <a href="/contact/<%= ctc.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle me-3"></i>Detail</a>
+                <a href="/contact/<%= ctc.nama %>" class="btn btn-danger badge rounded-pill">Hapus</a>
             </td>
         </tr>
     <% }) %>
