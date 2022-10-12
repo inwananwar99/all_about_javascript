@@ -123,9 +123,17 @@ app.post('/contact',[
 })
 
 //hapus kontak
-app.delete('/contact/:nama',(req,res)=>{
-    deleteContact(req.params.nama);
-    res.redirect('/contact')
+app.get('/contact/delete/:nama',(req,res)=>{
+    const find = findContacts(req.params.nama);
+    if(!find){
+        res.status(404)
+        res.send('<h1>404</h1>')
+    }else{
+        deleteContact(req.params.nama)
+        req.flash('msg','Data berhasil dihapus!')
+        res.redirect('/contact')
+    }
+
 })
 
 // app.get('/product/:id',(req,res)=>{

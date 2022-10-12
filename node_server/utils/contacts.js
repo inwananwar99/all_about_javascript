@@ -54,11 +54,7 @@ const cekDuplikatNomor = (kontak)=>{
 const deleteContact = (nama)=>{
   const contacts = loadContacts();
   const newContact = contacts.filter((contact)=> contact.nama.toLowerCase() !== nama.toLowerCase());
-  if(contacts.length === newContact.length){
-    console.log(`${nama} tidak ditemukan`);
-    return false;
-  }
-  fs.writeFileSync('data/contacts.json',JSON.stringify(newContact));
+  saveContact(newContact)
 }
 
 module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact }
