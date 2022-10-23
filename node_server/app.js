@@ -1,6 +1,6 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact } = require('./utils/contacts')
+const { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact, getDataByName } = require('./utils/contacts')
 const {body,validationResult, check} = require('express-validator')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -121,6 +121,52 @@ app.post('/contact',[
         res.redirect('/contact')
     }
 })
+//edit kontak
+app.get('/contact/edit/:nama',(req,res)=>{
+    const getData = getDataByName(req.params.nama);
+    res.render('edit_contact',{
+        title:'Edit Contact',
+        layout:'layouts/main_layouts',
+        dataOld:getData[0]
+    })
+})
+
+//proses update kontak
+app.post('/contact/update',[
+    //validasi email
+    check('email','Alamat Email tidak tepat! Silahkan isi dengan tepat!').isEmail(),
+    //validasi nama
+    body('nama').custom((value)=>{
+        const duplikatNama = cekDuplikatNama(value);
+        if(duplikatNama){
+            throw new Error('Nama Kontak Sudah terdaftar!')
+        }
+        return true
+    }),
+    //validasi no hp
+    body('nohp').custom((value)=>{
+        const duplikatNomor = cekDuplikatNomor(value);
+        if(duplikatNomor){
+            throw new Error('Nomor Sudah terdaftar!')
+        }
+        return true
+    })
+],(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render('edit_contact',{
+        title:'Edit Contact',
+        layout:'layouts/main_layouts',
+        errors:errors.array(),
+        contact:req.body
+      })
+    }else{
+        // addContact(req.body)
+        // req.flash('msg','Data berhasil diubah!')
+        // res.redirect('/contact')
+    }
+})
+
 
 //hapus kontak
 app.get('/contact/delete/:nama',(req,res)=>{
@@ -136,9 +182,6 @@ app.get('/contact/delete/:nama',(req,res)=>{
 
 })
 
-// app.get('/product/:id',(req,res)=>{
-//     res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
-// });
 
 app.use('/',(req,res)=>{
     res.status(404)
@@ -151,6 +194,9 @@ app.listen(port,()=>{
 })
 
 
+// app.get('/product/:id',(req,res)=>{
+//     res.send(`Product ID : ${req.params.id} <br> Category : ${req.query.category}`)
+// });
 
 
 // const http = require('http')

@@ -53,8 +53,14 @@ const cekDuplikatNomor = (kontak)=>{
 //delete kontak
 const deleteContact = (nama)=>{
   const contacts = loadContacts();
-  const newContact = contacts.filter((contact)=> contact.nama.toLowerCase() !== nama.toLowerCase());
-  saveContact(newContact)
+  const existingContact = contacts.filter((contact)=> contact.nama.toLowerCase() !== nama.toLowerCase());
+  saveContact(existingContact)
 }
 
-module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact }
+const getDataByName = (nama)=>{
+  const contacts = loadContacts();
+  const getContact = contacts.filter((contact)=>contact.nama === nama);
+  return getContact;
+}
+
+module.exports = { loadContacts, findContacts, addContact, cekDuplikatNama, cekDuplikatNomor, deleteContact,getDataByName }
