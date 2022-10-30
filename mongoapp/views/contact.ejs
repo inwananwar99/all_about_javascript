@@ -10,6 +10,7 @@
 <table class="table">
     <tr>
         <th>#</th>
+        <th>Nama</th>
         <th>Nomor Handphone</th>
         <th>Aksi</th>
     </tr>
@@ -17,6 +18,7 @@
     <% contacts.forEach(ctc => { %>
         <tr>
             <td><%= no++  %> </td>
+            <td><%= ctc.nama %></td>
             <td><%= ctc.nohp %></td>
             <td>
                 <a href="/contact/<%= ctc.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle me-3"></i>Detail</a>

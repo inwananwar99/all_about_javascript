@@ -58,6 +58,7 @@ app.get('/registrasi',(req,res)=>{
     })
 });
 
+//halaman kontak
 app.get('/contact', async(req,res)=>{
     const contacts = await Contact.find();
     res.render('contact',{
@@ -65,5 +66,16 @@ app.get('/contact', async(req,res)=>{
         layout:'layouts/main_layouts',
         contacts,
         msg:req.flash('msg')
+    })
+});
+
+
+//detail kontak
+app.get('/contact/:nama', async (req,res)=>{
+    const contact = await Contact.findOne({nama:req.params.nama});
+    res.render('detail',{
+        title:'Detail Contacts',
+        layout:'layouts/main_layouts',
+        contact
     })
 });
