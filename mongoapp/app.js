@@ -1,6 +1,7 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const app = express()
+const {body, validationResult, check} = require('express-validator')
 const port = 3000
 
 require('./utils/db.js')
@@ -68,6 +69,44 @@ app.get('/contact', async(req,res)=>{
         msg:req.flash('msg')
     })
 });
+
+//halaman add kontak
+app.get('/contact/add',(req,res)=>{
+    res.render('add_contact',{
+        title:'Form Tambah Data Kontak',
+        layout:'layouts/main_layouts'
+    })
+})
+
+
+//tambah data kontak
+//tambah kontak
+app.post('/contact',[
+    //validasi email
+    check('email','Alamat Email tidak tepat! Silahkan isi dengan tepat!').isEmail(),
+    //validasi nama
+    body('nama').custom( async (value)=>{
+        const duplikatNama = await Contact.findOne({nama:value});
+        if(duplikatNama){
+            throw new Error('Nama Kontak Sudah terdaftar!')
+        }
+        return true
+    })
+],(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render('add_contact',{
+        title:'Add Contact',
+        layout:'layouts/main_layouts',
+        errors:errors.array()
+      })
+    }else{
+        Contact.insertMany(req.body,(error,result)=>{
+            req.flash('msg','Data berhasil ditambahkan!')
+            res.redirect('/contact')
+        })
+    }
+})
 
 
 //detail kontak
