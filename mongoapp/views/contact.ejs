@@ -23,7 +23,10 @@
             <td>
                 <a href="/contact/<%= ctc.nama %>" class="btn btn-success badge rounded-pill"><i class="bi bi-info-circle me-3"></i>Detail</a>
                 <a href="/contact/edit/<%= ctc.nama %>" class="btn btn-primary badge rounded-pill">Ubah</a>
-                <a href="/contact/delete/<%= ctc.nama %>" class="btn btn-danger badge rounded-pill">Hapus</a>
+                <form action="/contact?_method=DELETE" method="POST">
+                    <input type="hidden" name="id" value="<%= ctc._id %>">
+                    <button type="submit" class="btn btn-danger badge rounded-pill" onclick="return confirm('yakin?')">Hapus</button>
+                </form>
             </td>
         </tr>
     <% }) %>
