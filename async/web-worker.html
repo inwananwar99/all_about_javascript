@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX</title>
+    <script>
+        const worker = new Worker("worker.js");
+        worker.addEventListener("message", function (event) {
+            console.log(`Receive message from web worker : ${event.data}`);
+        });
+
+        function buttonClick() {
+            console.log("Start Log");
+            worker.postMessage(20000);
+            console.log("Finish Log");
+        }
+    </script>
+</head>
+<body>
+<button onclick="buttonClick()">Search Products</button>
+</body>
+</html>
