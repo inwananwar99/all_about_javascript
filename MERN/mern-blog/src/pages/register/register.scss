@@ -1,0 +1,14 @@
+.main-page {
+    display: flex;
+    height: 100%;
+}
+.left {
+    flex: 1;
+    background-color: aqua;
+    height: 100%;
+}
+.right {
+    width: 450px;
+    background-color: lightgreen;
+    height: 100%;
+}
