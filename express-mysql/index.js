@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const usersRouter = require('./routes/users')
 const middlewareLogs = require('./middlewares/logs')
+const usersModel = require('./models/users')
+
 
 app.listen(3000, ()=>{
     console.log('Server berhasil dijalankan di port 3000')
